@@ -23,48 +23,68 @@ let startBtn = document.getElementById('start'),
 
 let money, time;
 
-let start = () => {
-    time = prompt('Введите дату в формате YYYY-MM-DD');
+startBtn.addEventListener('click', function (event) {
+    let start = () => {
+        time = prompt('Введите дату в формате YYYY-MM-DD');
+    
+        do {
+            money = +prompt('Ваш бюджет на месяц:');
+        } while (isNaN(money) || money == '' || money == null || money < 1);
+    
+        appData.moneyApp = money;
+        appData.timeApp = time;
+        budgetValue.textContent = money.toFixed();
+        yearValue.value = new Date(Date.parse(time)).getFullYear();
+        monthValue.value = new Date(Date.parse(time)).getMonth() + 1;
+        dayValue.value = new Date(Date.parse(time)).getDate();
+    };
+    start();
+});
 
-    do {
-        money = +prompt('Ваш бюджет на месяц:');
-    } while (isNaN(money) || money == '' || money == null || money < 1);
-
-    appData.moneyApp = money;
-    appData.timeApp = time;
-    budgetValue.textContent = money.toFixed();
-    yearValue.value = new Date(Date.parse(time)).getFullYear();
-    monthValue.value = new Date(Date.parse(time)).getMonth() + 1;
-    dayValue.value = new Date(Date.parse(time)).getDate();
-};
 
 expensesBtn.addEventListener('click', function (event) {
-    let sum = 0;
-    for (let i = 0; i < expensesItem.length; i++) {
-        let a = expensesItem[i].value,
-            b = expensesItem[++i].value;
-        if (typeof (a) === 'string' && isNaN(a) && typeof (a) != null && !isNaN(b) && typeof (b) != null
-            && a != '' && b != '' && a.length < 50) {
-            console.log('Very good!');
-            appData.expenses[a] = b;
-            sum += +b;
-            expensesValue.textContent = sum;
-        } else {
-            i--;
+    if (appData.moneyApp != undefined) {
+        let sum = 0;
+        for (let i = 0; i < expensesItem.length; i++) {
+            let a = expensesItem[i].value,
+                b = expensesItem[++i].value;
+            if (typeof (a) === 'string' && isNaN(a) && typeof (a) != null && !isNaN(b) && typeof (b) != null
+                && a != '' && b != '' && a.length < 50) {
+                console.log('Very good!');
+                appData.expenses[a] = +b;
+                sum += +b;
+                expensesValue.textContent = sum;
+            } else {
+                i--;
+            }
         }
+    } else {
+        alert(`Произошла ошибка! Начните расчет!`);
     }
 });
 
 optinalExpensesBtn.addEventListener('click', function () {
-    for (let i = 0; i < optionalExpensesItem.length; i++) {
-        let opt = optionalExpensesItem[i].value;
-        appData.optionalExpenses[i] = opt;
-        optionalExpensesValue.textContent += appData.optionalExpenses[i] + ' ';
+    if (appData.moneyApp != undefined) {
+        for (let i = 0; i < optionalExpensesItem.length; i++) {
+            let opt = optionalExpensesItem[i].value;
+            appData.optionalExpenses[i] = opt;
+            optionalExpensesValue.textContent += appData.optionalExpenses[i] + ' ';
+        }
+    } else {
+        alert(`Произошла ошибка! Начните расчет!`);
     }
 });
 
 countBtn.addEventListener('click', function () {
     if (appData.moneyApp != undefined) {
+
+        if(appData.expenses != undefined) {
+            let sum = 0;
+            for(let key in appData.expenses) {
+                sum += appData.expenses[key];
+            }
+            appData.moneyApp -= sum;
+        }
 
         appData.moneyPerDay = (appData.moneyApp / 30).toFixed();
         dayBudgetValue.textContent = appData.moneyPerDay;
@@ -79,8 +99,8 @@ countBtn.addEventListener('click', function () {
             return levelValue.textContent = `Fatal Error`;
         }
     } else {
-        dayBudgetValue.textContent = `Произошла ошибка!`;
-    };
+        dayBudgetValue.textContent = `Произошла ошибка! Начните расчет!`;
+    }
 });
 
 icomeItem.addEventListener('change', function () {
@@ -122,11 +142,6 @@ percentValue.addEventListener('input', function () {
         yearSavingsValue.textContent = appData.yearIncome.toFixed(1);
     }
 });
-
-startBtn.addEventListener('click', function (event) {
-    start();
-});
-
 
 let appData = {
     moneyApp: money,
