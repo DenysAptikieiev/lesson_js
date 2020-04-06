@@ -1,0 +1,45 @@
+.wrapper {
+    margin: 0 auto;
+    padding: 0;
+}
+
+#btn-anim {
+    width: 150px;
+    height: 50px;
+    background: yellow;
+    text-align: center;
+    margin-bottom: 50px;
+}
+
+.container-animated {
+    border: 2px solid red;
+    width: 400px;
+    height: 400px;
+    margin: 0 auto;
+    position: relative;
+}
+
+.elem-animated {
+    width: 100px;
+    height: 100px;
+    background: blue;
+    position: relative;
+}
+
+.line-elements {
+    height: 100px;
+    background: lightgrey;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.line-elements button {
+    width: 100px;
+    height: 50px;
+    background: yellow;
+}
+
+.line-elements button:not(:last-child) {
+    margin-right: 10px;
+}
