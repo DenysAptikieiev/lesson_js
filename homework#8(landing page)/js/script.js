@@ -1,7 +1,7 @@
 window.addEventListener('DOMContentLoaded', function() {
 
     "use strict";
-
+    // TABS
     let tab = document.querySelectorAll('.info-header-tab'),
         info = document.querySelector('.info-header'),
         tabContent = document.querySelectorAll('.info-tabcontent');
@@ -34,4 +34,61 @@ window.addEventListener('DOMContentLoaded', function() {
                 }
             }
         });
+        //===================================================================
+        //TIMER
+
+        let deadLine = '2020-04-08';
+
+        let getTimeRemaining = (endTime) => {
+            let total = Date.parse(endTime) - Date.parse(new Date()),
+                seconds = Math.floor((total/1000) % 60),
+                minutes = Math.floor((total/1000/60) % 60), 
+                hours = Math.floor(total/(1000*60*60));
+
+                return {
+                    'total': total,
+                    'hours': hours,
+                    'minutes': minutes,
+                    'seconds': seconds,
+                };
+        };
+
+        let setClock = (id, endTime) => {
+            let timer = document.getElementById(id),
+                hours = timer.querySelector('.hours'),
+                minutes = timer.querySelector('.minutes'),
+                seconds = timer.querySelector('.seconds'),
+                timeInterval = setInterval(updateClock, 1000);
+
+                function updateClock() {
+
+                    let t = getTimeRemaining(endTime);
+
+                    for (let key in t) {
+                        if (key != 'total') {
+                            if (t[key] < 10) {
+                                t[key] = '0' + t[key];
+                            } 
+                        }
+                    }
+
+                    if (t.hours > 59) {
+                        hours.textContent = '59';
+                    } else {
+                        hours.textContent = t.hours;
+                    }
+
+                    minutes.textContent = t.minutes;
+                    seconds.textContent = t.seconds;
+                    
+                    if (t.total < 0) {
+                        clearInterval(timeInterval);
+                        hours.textContent = '00';
+                        minutes.textContent = '00';
+                        seconds.textContent = '00';
+                    }
+                }
+        };
+
+        setClock('timer', deadLine);
 });
