@@ -10,17 +10,19 @@ class Options {
         let elem = document.querySelector('body'),
             div = document.createElement('div');
             div.textContent = 'Hello world!';
-            div.style.height = this.height;
-            div.style.width = this.width;
-            div.style.background = this.bg;
-            div.style.fontSize = this.fontSize;
-            div.style.textAlign = this.textAlign;
+            let param = `height: ${this.height}px; 
+                         width: ${this.width}px;
+                         background-color:${this.bg};
+                         font-size: ${this.fontSize}px;
+                         text-align: ${this.textAlign};
+            `;
+            div.style.cssText = param;
             elem.appendChild(div);
         }
 }
 
-let params = ['250px', '250px', 'red', '18px', 'center'];
-let params2 = ['100px', '100px', 'lightblue', '1.5em', 'left']
+let params = ['250', '250', 'red', '18', 'center'];
+let params2 = ['100', '100', 'lightblue', '25', 'left']
 
 let div1 = new Options(...params);
 let div2 = new Options(...params2);
