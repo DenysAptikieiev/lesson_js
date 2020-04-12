@@ -1,0 +1,15 @@
+body {
+    background: lightgrey;
+}
+
+form {
+    margin: 0 auto;
+    width: 200px;
+    height: 200px;
+    background: #fff;
+    padding: 15px;
+
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
